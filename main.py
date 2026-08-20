@@ -1,15 +1,4 @@
-# To run and test the code you need to update 4 places:
-# 1. Change MY_EMAIL/MY_PASSWORD to your own details.
-# 2. Go to your email provider and make it allow less secure apps.
-# 3. Update the SMTP ADDRESS to match your email provider.
-# 4. Update birthdays.csv to contain today's month and day.
-# See the solution video in the 100 Days of Python Course for explainations.
-
-
-from datetime import datetime
-import pandas
-import random
-import smtplib
+import requests
 import os
 
 # import os and use it to get the Github repository secrets
@@ -17,8 +6,6 @@ api_key = os.environ.get("API_KEY")
 
 my_latitude = os.environ.get("MY_LATITUDE")
 my_longitude = os.environ.get("MY_LONGITUDE")
-
-
 
 parameters = {"lat": my_latitude, "lon": my_longitude, "appid": api_key, "cnt": 4}
 
