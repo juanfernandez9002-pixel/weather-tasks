@@ -52,4 +52,9 @@ jobs:
           # Add more secrets in Settings > Secrets > Actions
           MY_EMAIL: ${{ secrets.MY_EMAIL }}
           MY_PASSWORD: ${{ secrets.MY_PASSWORD }}
+          API_KEY: ${{ secrets.API_KEY }}
+          MY_LATITUDE: ${{ secrets.MY_LATITUDE }}
+          MY_LONGITUDE: ${{ secrets.MY_LONGITUDE }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          BOT_CHAT_ID: ${{ secrets.BOT_CHAT_ID }}
         run: python main.py
