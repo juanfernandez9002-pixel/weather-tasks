@@ -13,26 +13,36 @@ import smtplib
 import os
 
 # import os and use it to get the Github repository secrets
-MY_EMAIL = os.environ.get("MY_EMAIL")
-MY_PASSWORD = os.environ.get("MY_PASSWORD")
+api_key = os.environ.get("API_KEY")
 
-today = datetime.now()
-today_tuple = (today.month, today.day)
+my_latitude = os.environ.get("MY_LATITUDE")
+my_longitude = os.environ.get("MY_LONGITUDE")
 
-data = pandas.read_csv("birthdays.csv")
-birthdays_dict = {(data_row["month"], data_row["day"])                  : data_row for (index, data_row) in data.iterrows()}
-if today_tuple in birthdays_dict:
-    birthday_person = birthdays_dict[today_tuple]
-    file_path = f"letter_templates/letter_{random.randint(1, 3)}.txt"
-    with open(file_path) as letter_file:
-        contents = letter_file.read()
-        contents = contents.replace("[NAME]", birthday_person["name"])
 
-    with smtplib.SMTP("YOUR EMAIL PROVIDER SMTP SERVER ADDRESS") as connection:
-        connection.starttls()
-        connection.login(MY_EMAIL, MY_PASSWORD)
-        connection.sendmail(
-            from_addr=MY_EMAIL,
-            to_addrs=birthday_person["email"],
-            msg=f"Subject:Happy Birthday!\n\n{contents}"
-        )
+
+parameters = {"lat": my_latitude, "lon": my_longitude, "appid": api_key, "cnt": 4}
+
+response = requests.get(url=f"https://api.openweathermap.org/data/2.5/forecast", params=parameters)
+response.raise_for_status()
+
+info = response.json()
+
+will_it_rain = False
+
+for index in range(0, len(info["list"])):
+    print(info["list"][index]["weather"][0]["id"])
+    if info["list"][index]["weather"][0]["id"] < 700:
+        will_it_rain = True
+
+def telegram_bot_sendtext(bot_message):
+    bot_token = os.environ.get("BOT_TOKEN")
+    bot_chatID = os.environ.get("BOT_CHAT_ID")
+
+    send_text = "https://api.telegram.org/bot" + bot_token + "/sendMessage?chat_id=" + bot_chatID + "&parse_mode=Markdown&text=" + bot_message
+    t_response = requests.get(send_text)
+    return t_response.json()
+
+if will_it_rain:
+    telegram_bot_sendtext("It is going to rain tomorrow. Make sure to bring an umbrella ☔️.")
+else:
+    telegram_bot_sendtext("Good news. Tomorrow will be a sunny day 😃☀️")
