@@ -27,7 +27,9 @@ def telegram_bot_sendtext(bot_message):
 
     send_text = "https://api.telegram.org/bot" + bot_token + "/sendMessage?chat_id=" + bot_chatID + "&parse_mode=Markdown&text=" + bot_message
     t_response = requests.get(send_text)
-    return t_response.json()
+    print("Telegram status:", t_response.status_code)
+    print("Telegram response:", t_response.json())
+    return t_response.json())
 
 if will_it_rain:
     telegram_bot_sendtext("It is going to rain tomorrow. Make sure to bring an umbrella ☔️.")
