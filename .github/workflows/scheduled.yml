@@ -1,5 +1,6 @@
 name: Daily Script
 
+on:
   schedule:
     # ╔═══════════════════════════════════════════════════════════════╗
     # ║  CHANGE THE LINE BELOW to set when your script runs          ║
