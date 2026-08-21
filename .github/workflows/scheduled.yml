@@ -46,6 +46,22 @@ jobs:
           fi
         env:
             API_KEY: ${{ secrets.API_KEY }}
+      - name: Check Telegram variables
+        run: |
+          if [ -z "$BOT_TOKEN" ]; then
+            echo "BOT_TOKEN está VACÍO"
+          else
+            echo "BOT_TOKEN está presente"
+          fi
+      
+          if [ -z "$BOT_CHAT_ID" ]; then
+            echo "BOT_CHAT_ID está VACÍO"
+          else
+            echo "BOT_CHAT_ID está presente"
+          fi
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          BOT_CHAT_ID: ${{ secrets.BOT_CHAT_ID }}
       - name: Run script
         env:
           # Your secrets are available as environment variables
