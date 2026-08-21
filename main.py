@@ -29,7 +29,7 @@ def telegram_bot_sendtext(bot_message):
     t_response = requests.get(send_text)
     print("Telegram status:", t_response.status_code)
     print("Telegram response:", t_response.json())
-    return t_response.json())
+    return t_response.json()
 
 if will_it_rain:
     telegram_bot_sendtext("It is going to rain tomorrow. Make sure to bring an umbrella ☔️.")
